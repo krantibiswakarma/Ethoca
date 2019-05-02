@@ -19,12 +19,10 @@ public class OrderPageObjects extends BaseUtil{
 	BaseUtil base;
 	final WebDriver driver;
 	final String title = "Order - My Store";
-	Actions action;
 	
 	public OrderPageObjects(WebDriver driver){
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
-		action = new Actions(driver);
 	}
 	
 	@FindBy(how = How.XPATH, using = "//a[@class='button btn btn-default standard-checkout button-medium']//span[contains(text(),'Proceed to checkout')]")

@@ -13,12 +13,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Base.BaseUtil;
+import Util.Selenium;
 
 public class LandingPageObjects extends BaseUtil{
 
 	final WebDriver driver;
 	final String title = "My Store";
-	Actions action;
+	Selenium selenium;
 	
 	@FindBy(how=How.XPATH, using = "//a[@class='sf-with-ul'][contains(text(),'Women')]")
 	public WebElement women_Tab;
@@ -29,7 +30,7 @@ public class LandingPageObjects extends BaseUtil{
 	public LandingPageObjects(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
-		action = new Actions(driver);
+		selenium = new Selenium(driver);
 	}
 	
 	public void verifyItIsLandingPage(){
@@ -38,10 +39,8 @@ public class LandingPageObjects extends BaseUtil{
 	}
 	
 	public void clickSummerDressesWomen() {		
-		action.moveToElement(women_Tab).build().perform();
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOf(summer_Dresses));
-		action.moveToElement(summer_Dresses).click().build().perform();
+		selenium.moveToElement(women_Tab);
+		selenium.waitUntilVisibleAndClickUsingActions(summer_Dresses);
 	}
 
 }

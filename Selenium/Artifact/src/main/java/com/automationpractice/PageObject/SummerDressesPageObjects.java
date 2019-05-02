@@ -4,30 +4,27 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.testng.Assert.assertTrue;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Base.BaseUtil;
+import Util.Selenium;
 
 public class SummerDressesPageObjects extends BaseUtil{
 
 	BaseUtil base;
 	final WebDriver driver;
 	final String title = "Summer Dresses - My Store";
-	Actions action;
+	Selenium selenium;
 	
 	public SummerDressesPageObjects(WebDriver driver){
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
-		action = new Actions(driver);
+		selenium = new Selenium(driver);
 	}
 	
 	@FindBy(how = How.XPATH, using = ".//li[@class='ajax_block_product col-xs-12 col-sm-6 col-md-4 last-in-line last-line first-item-of-tablet-line last-item-of-mobile-line last-mobile-line']")
@@ -63,18 +60,7 @@ public class SummerDressesPageObjects extends BaseUtil{
 	}
 	
 	public void clickQuickViewPrintedShiffon(){
-		action.moveToElement(printedShiffonDress).build().perform();
-		//WebDriverWait wait = new WebDriverWait(driver, 10);
-		//wait.until(ExpectedConditions.elementToBeClickable(quickView));
-		//action.moveToElement(quickView).click().build().perform();
-		//quickView.click();
-		//JavascriptExecutor js = (JavascriptExecutor) driver;
-		//String mouseOverScript = "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('mouseover',true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onmouseover');}";
-        
-		//js.executeScript(mouseOverScript, printedShiffonDress);
-		//js.executeScript("arguments[0].click()", quickView);
-		//driver.switchTo().defaultContent();
-		//printedShiffonDress.findElement(By.className("quick-view'")).click();
+		selenium.moveToElement(printedShiffonDress);
 		quickView.click();
 	}
 	
@@ -88,31 +74,20 @@ public class SummerDressesPageObjects extends BaseUtil{
 		addToCart.click();
 	}
 	public void clickContinueShopping(){
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.elementToBeClickable(continueShopping));
-		//action.moveToElement(continueShopping).click().build().perform();
-		//continueShopping.click();	
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].click()", continueShopping);
+		selenium.waitUntilClickableThenClickUsingJS(continueShopping);
 	}
 	public void verifyPrintedChifonDressProductDetailsOpens(){
-		WebDriverWait wait = new WebDriverWait(driver, 20);
-		wait.until(ExpectedConditions.invisibilityOf(addToCart));
+		selenium.waitUntilElementInvisible(addToCart);
 		driver.switchTo().frame(0);
 		assertTrue(printedChifonDressProductDetails.isDisplayed());
 	}
 	
 	public void verifyProductSuccessfullyAdded(){
-		WebDriverWait wait = new WebDriverWait(driver, 20);
-		wait.until(ExpectedConditions.visibilityOf(productSuccessfullyAdded));
-		//assertFalse(productSuccessfullyAdded.isDisplayed());
-		System.out.println("product has been added successfully");
+		selenium.waitUntilElementVisible(productSuccessfullyAdded);
 	}
 	
 	public void clickCheckoutFromCart(){
-		action.moveToElement(cart).build().perform();
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOf(checkOut));
-		action.moveToElement(checkOut).click().build().perform();
+		selenium.moveToElement(cart);
+		selenium.waitUntilVisibleAndClickUsingActions(checkOut);
 	}
 }

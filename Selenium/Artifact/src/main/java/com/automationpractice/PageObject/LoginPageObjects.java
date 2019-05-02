@@ -6,22 +6,20 @@ import static org.testng.Assert.assertTrue;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import Base.BaseUtil;
+import Util.Selenium;
 
 public class LoginPageObjects extends BaseUtil{
 
 	BaseUtil base;
 	final WebDriver driver;
 	final String title = "Login - My Store";
-	Actions action;
+	Selenium selenium;
 	
 	
 	@FindBy(how = How.ID, using = "email_create")
@@ -87,7 +85,7 @@ public class LoginPageObjects extends BaseUtil{
 	public LoginPageObjects(WebDriver driver){
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
-		action = new Actions(driver);
+		selenium = new Selenium(driver);
 	}
 	
 	public void verifyItIsLoginPage(){
@@ -99,9 +97,7 @@ public class LoginPageObjects extends BaseUtil{
 	}
 	
 	public void createAccount(){
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
-		createAnAccount.click();
+		selenium.waitUntilVisibleAndClick(createAnAccount);
 	}
 	
 	public void selectTitleMale(){
@@ -147,9 +143,6 @@ public class LoginPageObjects extends BaseUtil{
 	}
 	
 	public void enterState(String state){
-//		Select s = new Select(this.state);
-//		this.state.click();
-//		s.deselectByVisibleText(state);
 		this.state.sendKeys(state);
 		
 	}
@@ -159,9 +152,6 @@ public class LoginPageObjects extends BaseUtil{
 	}
 	
 	public void selectCountry(String country){
-//		Select s = new Select(this.country);
-//		this.country.click();
-//		s.deselectByVisibleText(country);
 		this.country.sendKeys(country);
 	}
 	

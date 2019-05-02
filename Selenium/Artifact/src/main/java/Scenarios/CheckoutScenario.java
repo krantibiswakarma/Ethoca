@@ -8,6 +8,8 @@ import com.automationpractice.PageObject.LandingPageObjects;
 import com.automationpractice.PageObject.OrderPageObjects;
 import com.automationpractice.PageObject.SummerDressesPageObjects;
 
+import Util.Log;
+
 public class CheckoutScenario {
 
 	LandingPageObjects landingPageObjects;
@@ -78,8 +80,8 @@ public class CheckoutScenario {
 	public void verifyProductNameAndSize(String productName, String productSize){
 		String expectedProduct = orderPageObjects.getProductName().toString();
 		String expectedSize = orderPageObjects.getProductSize().toString();
-		System.out.println("expected and actual products"+expectedProduct+" : "+productName);
-		System.out.println("expected and actual size"+expectedSize+" "+productSize);
+		Log.info("expected and actual products"+expectedProduct+" : "+productName);
+		Log.info("expected and actual size"+expectedSize+" "+productSize);
 		assertTrue(expectedProduct.equalsIgnoreCase(productName));
 		assertTrue(expectedSize.contains(productSize));
 	}
